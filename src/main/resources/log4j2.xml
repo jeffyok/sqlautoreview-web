@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="5">
+	<Properties>
+		<Property name="logPath" >logs/sqlautoreview-web</Property>
+	</Properties>
+	
+	<Appenders>
+		<Console name="console">
+			<PatternLayout pattern="%d %-5p [%t] %m (%c:%F:%L) %n" />
+		</Console>
+		<RollingRandomAccessFile name="allFile" fileName="${logPath}/all.log" filePattern="${logPath}/all.log.%d{yyyy-MM-dd}" immediateFlush="false">
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+			<PatternLayout pattern="%d %-5p [%t] %m (%c:%F:%L) %n" />
+		</RollingRandomAccessFile>
+	</Appenders>
+	
+	<Loggers>
+		<Logger name="org.springframework" level="info"/>
+		<Logger name="org.springframework.transaction" level="info"/>
+		<Logger name="org.springframework.jdbc" level="info"/>
+		<Logger name="org.springframework.jdbc.core.JdbcTemplate" level="info"/>
+		<Logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="info"/>
+		<Logger name="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver" level="debug"/>
+		<AsyncRoot level="info" includeLocation="true">
+			<AppenderRef ref="allFile" />
+			<AppenderRef ref="console" />
+		</AsyncRoot>
+	</Loggers>
+</Configuration>

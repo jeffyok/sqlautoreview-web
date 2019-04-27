@@ -1,0 +1,1 @@
+sqlautoreview-web是一个sql自动review系统，支持web页面管理，可以帮助我们对mybatis的sql语句进行review，然后对每个review的表生成建议的索引语句

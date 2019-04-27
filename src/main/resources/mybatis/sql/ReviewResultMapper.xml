@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.sqlautoreview.mapper.ReviewResultMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.jeffy.sqlautoreview.model.ReviewResultModel" >
+	<result column="id" property="id"/>
+	<result column="project_id" property="projectId"/>
+	<result column="tablename" property="tablename"/>
+	<result column="real_tablename" property="realTablename"/>
+	<result column="exist_indexes" property="existIndexes"/>
+	<result column="new_indexes" property="newIndexes"/>
+	<result column="merge_result" property="mergeResult"/>
+	<result column="create_time" property="createTime"/>
+	<result column="update_time" property="updateTime"/>
+</resultMap>
+       
+<!-- t_review_result table all fields -->
+<sql id="Base_Columns" >
+	  t.id as id,
+  t.project_id as projectId,
+  t.tablename as tablename,
+  t.real_tablename as realTablename,
+  t.exist_indexes as existIndexes,
+  t.new_indexes as newIndexes,
+  t.merge_result as mergeResult,
+  t.create_time as createTime,
+  t.update_time as updateTime
+</sql>
+   
+<!-- 查询条件 -->
+<sql id="Where_Condition">
+<trim  suffixOverrides="," >
+<if test="model != null " >
+	<if test="model.id != null" >
+		and t.id = #{model.id}
+	</if>
+	<if test="model.projectId != null" >
+		and t.project_id = #{model.projectId}
+	</if>
+	 <if test="model.tablename != null and model.tablename != ''" >
+		and t.tablename = #{model.tablename}
+	</if>
+	 <if test="model.realTablename != null and model.realTablename != ''" >
+		and t.real_tablename like #{model.realTablename}
+	</if>
+	 <if test="model.existIndexes != null and model.existIndexes != ''" >
+		and t.exist_indexes = #{model.existIndexes}
+	</if>
+	 <if test="model.newIndexes != null and model.newIndexes != ''" >
+		and t.new_indexes = #{model.newIndexes}
+	</if>
+	 <if test="model.mergeResult != null and model.mergeResult != ''" >
+		and t.merge_result = #{model.mergeResult}
+	</if>
+	<if test="model.createTime != null" >
+		and t.create_time = #{model.createTime}
+	</if>
+	<if test="model.updateTime != null" >
+		and t.update_time = #{model.updateTime}
+	</if>
+</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+  insert into t_review_result
+(id,
+project_id,
+tablename,
+real_tablename,
+exist_indexes,
+new_indexes,
+merge_result,
+create_time,
+update_time)
+ values(#{id},
+#{projectId},
+#{tablename},
+#{realTablename},
+#{existIndexes},
+#{newIndexes},
+#{mergeResult},
+now(),
+now())
+</insert>
+
+<!-- 批量插入记录 -->
+<insert id="addBatch" parameterType="java.util.List" >
+    insert into t_review_result
+     (
+      id,project_id,tablename,real_tablename,exist_indexes,new_indexes,merge_result,create_time,update_time
+     ) 
+     values 
+    <foreach collection="list" item="item" index="index" separator="," >
+       (
+       	       	  #{item.id},
+	   	       	  #{item.projectId},
+	   	       	  #{item.tablename},
+	   	       	  #{item.realTablename},
+	   	       	  #{item.existIndexes},
+	   	       	  #{item.newIndexes},
+	   	       	  #{item.mergeResult},
+	   	       	  #{item.createTime},
+	   	       	  #{item.updateTime}
+	   		   )
+    </foreach>
+  </insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_review_result set   project_id=#{projectId},
+  tablename=#{tablename},
+  real_tablename=#{realTablename},
+  exist_indexes=#{existIndexes},
+  new_indexes=#{newIndexes},
+  merge_result=#{mergeResult},
+  update_time=now()
+ where id=#{id}
+
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_review_result set 
+	<trim  suffixOverrides="," >
+	<if test="projectId != null  ">
+		project_id=#{projectId},
+	</if>
+	<if test="tablename != null  and tablename != '' ">
+		tablename=#{tablename},
+	</if>
+	<if test="realTablename != null  and realTablename != '' ">
+		real_tablename=#{realTablename},
+	</if>
+	<if test="existIndexes != null  and existIndexes != '' ">
+		exist_indexes=#{existIndexes},
+	</if>
+	<if test="newIndexes != null  and newIndexes != '' ">
+		new_indexes=#{newIndexes},
+	</if>
+	<if test="mergeResult != null  and mergeResult != '' ">
+		merge_result=#{mergeResult},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteById" parameterType="Object">
+	delete 	from t_review_result where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 页面 -->
+<select id="getById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Columns" /> 
+	 from t_review_result t where id = #{id}
+</select>
+
+<!-- 页面 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_review_result t
+	where 1=1
+	<include refid="Where_Condition"/>
+</select>
+  	
+<!-- 查询页面列表 -->
+<select id="queryList" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Columns"/>
+	from t_review_result t
+	where 1=1
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+
+
+
+<!-- SqlmapperFileVoMap-->
+<resultMap id="ReviewResultVoMap" type="com.jeffy.sqlautoreview.vo.ReviewResultVo" extends="BaseResultMap">
+	<result column="projectName" property="projectName"/>
+	<result column="projectChName" property="projectChName"/>
+</resultMap>
+
+<!-- 根据条件查询sql mapper vo 列表  -->
+<select id="queryReviewResultVoList" resultMap="ReviewResultVoMap">
+	select 
+	<include refid="Base_Columns"/>,
+	p.project_name as projectName,
+	p.project_ch_name as projectChName
+	from t_review_result t,t_project p
+	where t.project_id= p.project_id
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+<!-- 根据项目ID删除review 结果  -->
+<delete id="deleteByProjectId">
+	DELETE
+	FROM
+		t_review_result
+	WHERE
+		project_id =#{projectId}
+</delete>
+ 	
+</mapper>   

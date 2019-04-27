@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.sqlautoreview.mapper.SqlreviewMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.jeffy.sqlautoreview.model.SqlreviewModel" >
+	<result column="id" property="id"/>
+	<result column="project_id" property="projectId"/>
+	<result column="mapper_file_id" property="mapperFileId"/>
+	<result column="java_class_id" property="javaClassId"/>
+	<result column="sql_xml" property="sqlXml"/>
+	<result column="sql_comment" property="sqlComment"/>
+	<result column="real_sql" property="realSql"/>
+	<result column="real_sql_hash" property="realSqlHash"/>
+	<result column="table_name" property="tableName"/>
+	<result column="status" property="status"/>
+	<result column="auto_review_err" property="autoReviewErr"/>
+	<result column="auto_review_tip" property="autoReviewTip"/>
+	<result column="auto_review_time" property="autoReviewTime"/>
+	<result column="sql_auto_index" property="sqlAutoIndex"/>
+	<result column="dba_review_time" property="dbaReviewTime"/>
+	<result column="sql_dba_index" property="sqlDbaIndex"/>
+	<result column="index_flag" property="indexFlag"/>
+	<result column="sql_type" property="sqlType"/>
+	<result column="dba_advice" property="dbaAdvice"/>
+	<result column="dba_review_status" property="dbaReviewStatus"/>
+	<result column="create_time" property="createTime"/>
+	<result column="update_time" property="updateTime"/>
+</resultMap>
+       
+<!-- t_sqlreview table all fields -->
+<sql id="Base_Columns" >
+	  t.id as id,
+  t.project_id as projectId,
+  t.mapper_file_id as mapperFileId,
+  t.java_class_id as javaClassId,
+  t.sql_xml as sqlXml,
+  t.sql_comment as sqlComment,
+  t.real_sql as realSql,
+  t.real_sql_hash as realSqlHash,
+  t.table_name as tableName,
+  t.status as status,
+  t.auto_review_err as autoReviewErr,
+  t.auto_review_tip as autoReviewTip,
+  t.auto_review_time as autoReviewTime,
+  t.sql_auto_index as sqlAutoIndex,
+  t.dba_review_time as dbaReviewTime,
+  t.sql_dba_index as sqlDbaIndex,
+  t.index_flag as indexFlag,
+  t.sql_type as sqlType,
+  t.dba_advice as dbaAdvice,
+  t.dba_review_status as dbaReviewStatus,
+  t.create_time as createTime,
+  t.update_time as updateTime
+</sql>
+   
+<!-- 查询条件 -->
+<sql id="Where_Condition">
+<trim  suffixOverrides="," >
+<if test="model != null " >
+	<if test="model.id != null" >
+		and t.id = #{model.id}
+	</if>
+	<if test="model.projectId != null" >
+		and t.project_id = #{model.projectId}
+	</if>
+	<if test="model.mapperFileId != null" >
+		and t.mapper_file_id = #{model.mapperFileId}
+	</if>
+	 <if test="model.javaClassId != null and model.javaClassId != ''" >
+		and t.java_class_id like #{model.javaClassId}
+	</if>
+	 <if test="model.sqlXml != null and model.sqlXml != ''" >
+		and t.sql_xml = #{model.sqlXml}
+	</if>
+	 <if test="model.sqlComment != null and model.sqlComment != ''" >
+		and t.sql_comment = #{model.sqlComment}
+	</if>
+	 <if test="model.realSql != null and model.realSql != ''" >
+		and t.real_sql = #{model.realSql}
+	</if>
+	 <if test="model.realSqlHash != null and model.realSqlHash != ''" >
+		and t.real_sql_hash = #{model.realSqlHash}
+	</if>
+	 <if test="model.tableName != null and model.tableName != ''" >
+		and t.table_name like #{model.tableName}
+	</if>
+	<if test="model.status != null" >
+		and t.status = #{model.status}
+	</if>
+	 <if test="model.autoReviewErr != null and model.autoReviewErr != ''" >
+		and t.auto_review_err = #{model.autoReviewErr}
+	</if>
+	 <if test="model.autoReviewTip != null and model.autoReviewTip != ''" >
+		and t.auto_review_tip = #{model.autoReviewTip}
+	</if>
+	<if test="model.autoReviewTime != null" >
+		and t.auto_review_time = #{model.autoReviewTime}
+	</if>
+	 <if test="model.sqlAutoIndex != null and model.sqlAutoIndex != ''" >
+		and t.sql_auto_index = #{model.sqlAutoIndex}
+	</if>
+	<if test="model.indexFlag != null and model.indexFlag != ''" >
+		and t.index_flag = #{model.indexFlag}
+	</if>
+	 <if test="model.sqlType != null and model.sqlType != ''" >
+		and t.sql_type = #{model.sqlType}
+	</if>
+	<if test="model.dbaReviewTime != null" >
+		and t.dba_review_time = #{model.dbaReviewTime}
+	</if>
+	 <if test="model.sqlDbaIndex != null and model.sqlDbaIndex != ''" >
+		and t.sql_dba_index = #{model.sqlDbaIndex}
+	</if>
+	 <if test="model.dbaAdvice != null and model.dbaAdvice != ''" >
+		and t.dba_advice = #{model.dbaAdvice}
+	</if>
+	 <if test="model.dbaReviewStatus != null and model.dbaReviewStatus != ''" >
+		and t.dba_review_status = #{model.dbaReviewStatus}
+	</if>
+	<if test="model.createTime != null" >
+		and t.create_time = #{model.createTime}
+	</if>
+	<if test="model.updateTime != null" >
+		and t.update_time = #{model.updateTime}
+	</if>
+</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+  insert into t_sqlreview
+(id,
+project_id,
+mapper_file_id,
+java_class_id,
+sql_xml,
+sql_comment,
+real_sql,
+real_sql_hash,
+table_name,
+status,
+auto_review_err,
+auto_review_tip,
+auto_review_time,
+sql_auto_index,
+dba_review_time,
+sql_dba_index,
+index_flag,
+sql_type,
+dba_advice,
+dba_review_status,
+create_time,
+update_time)
+ values(#{id},
+#{projectId},
+#{mapperFileId},
+#{javaClassId},
+#{sqlXml},
+#{sqlComment},
+#{realSql},
+#{realSqlHash},
+#{tableName},
+#{status},
+#{autoReviewErr},
+#{autoReviewTip},
+#{autoReviewTime},
+#{sqlAutoIndex},
+#{dbaReviewTime},
+#{sqlDbaIndex},
+#{indexFlag},
+#{sqlType},
+#{dbaAdvice},
+#{dbaReviewStatus},
+now(),
+now())
+</insert>
+
+<!-- 批量插入记录 -->
+<insert id="addBatch" parameterType="java.util.List" >
+    insert into t_sqlreview
+     (
+      id,project_id,mapper_file_id,java_class_id,sql_xml,sql_comment,real_sql,real_sql_hash,table_name,status,auto_review_err,auto_review_tip,auto_review_time,sql_auto_index,dba_review_time,sql_dba_index,index_flag,sql_type,dba_advice,dba_review_status,create_time,update_time
+     ) 
+     values 
+    <foreach collection="list" item="item" index="index" separator="," >
+       (
+       	       	  #{item.id},
+	   	       	  #{item.projectId},
+	   	       	  #{item.mapperFileId},
+	   	       	  #{item.javaClassId},
+	   	       	  #{item.sqlXml},
+	   	       	  #{item.sqlComment},
+	   	       	  #{item.realSql},
+	   	       	  #{item.realSqlHash},
+	   	       	  #{item.tableName},
+	   	       	  #{item.status},
+	   	       	  #{item.autoReviewErr},
+	   	       	  #{item.autoReviewTip},
+	   	       	  #{item.autoReviewTime},
+	   	       	  #{item.sqlAutoIndex},
+	   	       	  #{item.dbaReviewTime},
+	   	       	  #{item.sqlDbaIndex},
+	   	       	  #{item.indexFlag},
+	   	       	  #{item.sqlType},
+	   	       	  #{item.dbaAdvice},
+	   	       	  #{item.dbaReviewStatus},
+	   	       	  #{item.createTime},
+	   	       	  #{item.updateTime}
+	   		   )
+    </foreach>
+  </insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_sqlreview set   project_id=#{projectId},
+  mapper_file_id=#{mapperFileId},
+  java_class_id=#{javaClassId},
+  sql_xml=#{sqlXml},
+  sql_comment=#{sqlComment},
+  real_sql=#{realSql},
+  real_sql_hash=#{realSqlHash},
+  table_name=#{tableName},
+  status=#{status},
+  auto_review_err=#{autoReviewErr},
+  auto_review_tip=#{autoReviewTip},
+  auto_review_time=#{autoReviewTime},
+  sql_auto_index=#{sqlAutoIndex},
+  dba_review_time=#{dbaReviewTime},
+  sql_dba_index=#{sqlDbaIndex},
+  index_flag=#{indexFlag},
+  sql_type=#{sqlType},
+  dba_advice=#{dbaAdvice},
+  dba_review_status=#{dbaReviewStatus},
+  update_time=now()
+ where id=#{id}
+
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_sqlreview set 
+	<trim  suffixOverrides="," >
+	<if test="projectId != null  ">
+		project_id=#{projectId},
+	</if>
+	<if test="mapperFileId != null  ">
+		mapper_file_id=#{mapperFileId},
+	</if>
+	<if test="javaClassId != null  and javaClassId != '' ">
+		java_class_id=#{javaClassId},
+	</if>
+	<if test="sqlXml != null  and sqlXml != '' ">
+		sql_xml=#{sqlXml},
+	</if>
+	<if test="sqlComment != null  and sqlComment != '' ">
+		sql_comment=#{sqlComment},
+	</if>
+	<if test="realSql != null  and realSql != '' ">
+		real_sql=#{realSql},
+	</if>
+	<if test="realSqlHash != null  and realSqlHash != '' ">
+		real_sql_hash=#{realSqlHash},
+	</if>
+	<if test="tableName != null  and tableName != '' ">
+		table_name=#{tableName},
+	</if>
+	<if test="status != null  ">
+		status=#{status},
+	</if>
+	<if test="autoReviewErr != null  and autoReviewErr != '' ">
+		auto_review_err=#{autoReviewErr},
+	</if>
+	<if test="autoReviewTip != null  and autoReviewTip != '' ">
+		auto_review_tip=#{autoReviewTip},
+	</if>
+	<if test="autoReviewTime != null  ">
+		auto_review_time=#{autoReviewTime},
+	</if>
+	<if test="sqlAutoIndex != null  and sqlAutoIndex != '' ">
+		sql_auto_index=#{sqlAutoIndex},
+	</if>
+	<if test="dbaReviewTime != null  ">
+		dba_review_time=#{dbaReviewTime},
+	</if>
+	<if test="sqlDbaIndex != null  and sqlDbaIndex != '' ">
+		sql_dba_index=#{sqlDbaIndex},
+	</if>
+	<if test="indexFlag != null  and indexFlag != '' ">
+		index_flag=#{indexFlag},
+	</if>
+	<if test="sqlType != null  and sqlType != '' ">
+		sql_type=#{sqlType},
+	</if>
+	<if test="dbaAdvice != null  and dbaAdvice != '' ">
+		dba_advice=#{dbaAdvice},
+	</if>
+	<if test="dbaReviewStatus != null  and dbaReviewStatus != '' ">
+		dba_review_status=#{dbaReviewStatus},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteById" parameterType="Object">
+	delete 	 from t_sqlreview where id = #{id}
+</delete>
+ 
+<!-- 根据id查询 页面 -->
+<select id="getById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Columns" /> 
+	 from t_sqlreview t where id = #{id}
+</select>
+
+<!-- 页面 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_sqlreview t
+	where 1=1
+	<include refid="Where_Condition"/>
+</select>
+  	
+<!-- 查询页面列表 -->
+<select id="queryList" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Columns"/>
+	from t_sqlreview t
+	where 1=1
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+
+
+<!-- SqlmapperFileVoMap-->
+<resultMap id="SqlreviewVoMap" type="com.jeffy.sqlautoreview.vo.SqlreviewVo" extends="BaseResultMap">
+	<result column="projectName" property="projectName"/>
+	<result column="projectChName" property="projectChName"/>
+	<result column="fileName" property="fileName"/>
+</resultMap>
+
+<!-- 根据条件查询sql review 条数  -->
+<select id="querySqlreviewVoCount" resultType="int">
+	select count(1) from t_sqlreview t,t_sqlmapper_file sf
+	where t.mapper_file_id = sf.mapper_file_id
+	<include refid="Where_Condition"/>
+    <if test="model.fileName!=null and model.fileName!=''">
+    	AND sf.file_name like #{model.fileName}
+    </if>
+    AND status in ('0','1')
+</select>
+
+<!-- 根据条件查询sql mapper vo 列表  -->
+<select id="querySqlreviewVoList" resultMap="SqlreviewVoMap">
+	select 
+	<include refid="Base_Columns"/>,
+	p.project_name as projectName,
+	p.project_ch_name as projectChName,
+	sf.file_name as fileName
+	from t_sqlreview t,t_project p,t_sqlmapper_file sf
+	where t.project_id= p.project_id and t.mapper_file_id = sf.mapper_file_id
+	<include refid="Where_Condition"/>
+	<if test="model.fileName!=null and model.fileName!=''">
+    	AND sf.file_name like #{model.fileName}
+    </if>
+    AND status in ('0','1')
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+<!-- 根据项目查询所有检查sql -->
+<select id="getAllSqlReviewByProjectId" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Columns"/>
+	from t_sqlreview t
+	where 1=1
+	<if test="projectId != null">
+		and	project_id=#{projectId}
+	</if>
+	<if test="status != null">
+		 and status=#{status}
+	</if>
+</select>
+
+<!-- 根据项目ID删除sql review -->
+<delete id="deleteByProjectId">
+	DELETE
+	FROM
+		t_sqlreview
+	WHERE
+		project_id = #{projectId}
+</delete>
+
+
+</mapper>   

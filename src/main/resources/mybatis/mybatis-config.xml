@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 开启缓存 -->
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	<!-- 别名 -->
+	<typeAliases>
+	
+	</typeAliases>
+	<!--<plugins>
+		  分页拦截器 
+		 <plugin interceptor="com.lable.dao.mybatis.interceptor.PageInterceptor">
+           	<property name="dbType" value="mysql"/>
+         </plugin>
+	</plugins>-->
+</configuration>

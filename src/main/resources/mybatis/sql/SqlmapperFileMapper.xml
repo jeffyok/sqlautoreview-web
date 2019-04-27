@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.sqlautoreview.mapper.SqlmapperFileMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.jeffy.sqlautoreview.model.SqlmapperFileModel" >
+	<result column="mapper_file_id" property="mapperFileId"/>
+	<result column="project_id" property="projectId"/>
+	<result column="mapper_file_path" property="mapperFilePath"/>
+	<result column="file_name" property="fileName"/>
+	<result column="scan_time" property="scanTime"/>
+	<result column="operate_user" property="operateUser"/>
+	<result column="update_user" property="updateUser"/>
+	<result column="update_time" property="updateTime"/>
+</resultMap>
+       
+<!-- t_sqlmapper_file table all fields -->
+<sql id="Base_Columns" >
+	  t.mapper_file_id as mapperFileId,
+  t.project_id as projectId,
+  t.mapper_file_path as mapperFilePath,
+  t.file_name as fileName,
+  t.scan_time as scanTime,
+  t.operate_user as operateUser,
+  t.update_user as updateUser,
+  t.update_time as updateTime
+</sql>
+   
+<!-- 查询条件 -->
+<sql id="Where_Condition">
+<trim  suffixOverrides="," >
+<if test="model != null " >
+	<if test="model.mapperFileId != null" >
+		and t.mapper_file_id = #{model.mapperFileId}
+	</if>
+	<if test="model.projectId != null" >
+		and t.project_id = #{model.projectId}
+	</if>
+	 <if test="model.mapperFilePath != null and model.mapperFilePath != ''" >
+		and t.mapper_file_path = #{model.mapperFilePath}
+	</if>
+	 <if test="model.fileName != null and model.fileName != ''" >
+		and t.file_name like #{model.fileName}
+	</if>
+	<if test="model.scanTime != null" >
+		and t.scan_time = #{model.scanTime}
+	</if>
+	 <if test="model.operateUser != null and model.operateUser != ''" >
+		and t.operate_user = #{model.operateUser}
+	</if>
+	 <if test="model.updateUser != null and model.updateUser != ''" >
+		and t.update_user = #{model.updateUser}
+	</if>
+	 <if test="model.updateTime != null and model.updateTime != ''" >
+		and t.update_time = #{model.updateTime}
+	</if>
+</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" useGeneratedKeys="true"  keyProperty="mapperFileId">
+  insert into t_sqlmapper_file
+(mapper_file_id,
+project_id,
+mapper_file_path,
+file_name,
+scan_time,
+operate_user,
+update_user,
+update_time)
+ values(#{mapperFileId},
+#{projectId},
+#{mapperFilePath},
+#{fileName},
+#{scanTime},
+#{operateUser},
+#{updateUser},
+now())
+</insert>
+
+<!-- 批量插入记录 -->
+<insert id="addBatch" parameterType="java.util.List" >
+    insert into t_sqlmapper_file
+     (
+      mapper_file_id,project_id,mapper_file_path,file_name,scan_time,operate_user,update_user,update_time
+     ) 
+     values 
+    <foreach collection="list" item="item" index="index" separator="," >
+       (
+       	       	  #{item.mapperFileId},
+	   	       	  #{item.projectId},
+	   	       	  #{item.mapperFilePath},
+	   	       	  #{item.fileName},
+	   	       	  #{item.scanTime},
+	   	       	  #{item.operateUser},
+	   	       	  #{item.updateUser},
+	   	       	  #{item.updateTime}
+	   		   )
+    </foreach>
+  </insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_sqlmapper_file set   project_id=#{projectId},
+  mapper_file_path=#{mapperFilePath},
+  file_name=#{fileName},
+  scan_time=#{scanTime},
+  operate_user=#{operateUser},
+  update_user=#{updateUser},
+  update_time=now()
+ where mapper_file_id=#{mapperFileId}
+
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_sqlmapper_file set 
+	<trim  suffixOverrides="," >
+	<if test="projectId != null  ">
+		project_id=#{projectId},
+	</if>
+	<if test="mapperFilePath != null  and mapperFilePath != '' ">
+		mapper_file_path=#{mapperFilePath},
+	</if>
+	<if test="fileName != null  and fileName != '' ">
+		file_name=#{fileName},
+	</if>
+	<if test="scanTime != null  ">
+		scan_time=#{scanTime},
+	</if>
+	<if test="operateUser != null  and operateUser != '' ">
+		operate_user=#{operateUser},
+	</if>
+	<if test="updateUser != null  and updateUser != '' ">
+		update_user=#{updateUser},
+	</if>
+	<if test="updateTime != null  and updateTime != '' ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where mapper_file_id=#{mapperFileId}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteById" parameterType="Object">
+	delete 	 from t_sqlmapper_file where mapper_file_id = #{mapperFileId}
+</delete>
+ 
+<!-- 根据id查询 页面 -->
+<select id="getById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Columns" /> 
+	 from t_sqlmapper_file t where mapper_file_id = #{mapperFileId}
+</select>
+
+<!-- 页面 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_sqlmapper_file t
+	where 1=1
+	<include refid="Where_Condition"/>
+</select>
+  	
+<!-- 查询页面列表 -->
+<select id="queryList" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Columns"/>
+	from t_sqlmapper_file t
+	where 1=1
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+
+
+
+
+<!-- SqlmapperFileVoMap-->
+<resultMap id="SqlmapperFileVoMap" type="com.jeffy.sqlautoreview.vo.SqlmapperFileVo" extends="BaseResultMap">
+	<result column="projectName" property="projectName"/>
+	<result column="projectChName" property="projectChName"/>
+</resultMap>
+
+<!-- 根据条件查询sql mapper vo 列表  -->
+<select id="querySqlmapperFileVoList" resultMap="SqlmapperFileVoMap">
+	select 
+	<include refid="Base_Columns"/>,
+	p.project_name as projectName,
+	p.project_ch_name as projectChName
+	from t_sqlmapper_file t,t_project p
+	where t.project_id= p.project_id
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+<!-- 根据项目ID查找sql mapper File 列表-->
+<select id="getSqlmapperFileListByProjectId" resultMap="BaseResultMap">
+	SELECT 
+	<include refid="Base_Columns"/>
+	FROM t_sqlmapper_file t
+	WHERE 1=1
+	<if test="projectId != null  ">
+		AND project_id=#{projectId}
+	</if>
+</select>
+
+<!-- 根据项目ID删除sql mapper文件  -->
+<delete id="deleteByProjectId">
+	DELETE
+	FROM
+		t_sqlmapper_file
+	WHERE
+		project_id = #{projectId}
+</delete>
+
+<!-- 根据projectId和fileName查询sql mapper -->
+<select id="getSqlmapperFileModelByProjectIdAndfileName" resultMap="BaseResultMap">
+	SELECT 
+	<include refid="Base_Columns"/>
+	FROM t_sqlmapper_file t
+	where project_id = #{projectId} and file_name = #{fileName}
+</select>
+
+<!-- 根据projectId和fileName更新 -->
+<update id="updateSqlmapperFileModelByProjectIdAndfileName" parameterType="Object" >
+	update t_sqlmapper_file set 
+	<trim  suffixOverrides="," >
+		<if test="mapperFilePath != null  and mapperFilePath != '' ">
+			mapper_file_path=#{mapperFilePath},
+		</if>
+		<if test="scanTime != null ">
+			scan_time=#{scanTime},
+		</if>
+		<if test="operateUser != null  and operateUser != '' ">
+			operate_user=#{operateUser},
+		</if>
+		<if test="updateUser != null  and updateUser != '' ">
+			update_user=#{updateUser},
+		</if>
+		update_time=now()
+	</trim> 
+	where project_id=#{projectId} and file_name=#{fileName}
+</update>
+
+</mapper>   

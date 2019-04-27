@@ -1,0 +1,66 @@
+﻿@charset "utf-8";
+/* CSS Document */
+html,body,p,div,ul,ol,li,dl,dt,dd,img,a,span,label,h1,h2,h3,h4,h5,h6,table,tr,td,form,input{margin:0;padding:0;}
+img,input,textarea{border:0;}
+input{vertical-align: middle;}
+body{ font-family:'微软雅黑', Helvetica, Arial, sans-serif;font-size:12px;background: #fff;}
+li, ol { list-style:none; }
+i, em { font-style:normal; }
+a { text-decoration:none;}
+a:hover {text-decoration:none;}
+a:active{}
+:focus{outline:0;}
+.clear { clear:both; line-height:0px; overflow:hidden; zoom:1; font-size:0px; content:'.'; }
+a img { border:none; }
+table { border-collapse: collapse; border-spacing: 0;}
+.fl{float:left;}
+.fr{float:right;}
+.mright_none{margin-right: 0!important;}
+.border_r{border-right: none!important;}
+input:focus,
+textarea:focus {
+    border-color:#109114;
+    outline: 0;
+    outline: thin dotted \9;    
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    /*border:1px solid #1097e4;*/
+}
+
+.LoginBoxer{position: absolute;width: 100%;left: 0;top: 0;bottom: 0;right: 0;z-index: 1;background: #3283AC url(../images/admin-login-bg.jpg) no-repeat center;}
+.systemTitle {
+  line-height: 60px;
+  padding-top: 150px;
+  font-size: 35px;
+  color: #426374;
+  text-align: center;
+  font-weight: normal;
+}
+.Logins{position: absolute;width: 617px;height: 330px;background: url(../images/admin-loginform-bg.png) no-repeat;left: 50%;top: 50%;margin-left: -309px;margin-top: -184px;  padding-top: 38px;}
+
+.Logins form{display: block;}
+.Lglist{margin-top: 20px;}
+.Lglist span{display:inline-block;width: 22%;vertical-align: middle;margin-right: 10px;}
+.Lglist input{vertical-align: middle;}
+.Lglist input[type='text'],.Lglist input[type='password']{width: 360px;height: 35px;padding-left: 5px;}
+.Lglist .CheckCode,.Notice{display: inline-block;}
+.Lglist .CheckCode img{vertical-align: middle;height: 35px;width: 100px;margin-right: 10px;}
+.Lglist .CheckCode a{color: #333;}
+.Lglist label{color: #333;font-size: 14px;}
+.Lglist p{color: #f00;}
+
+.LgBtn,.LgReset{height: 35px;line-height: 35px;display:inline-block;padding:0 15px;cursor: pointer;text-align: center;font-size: 14px;border-radius: 5px;}
+.LgBtn{background: #00924b;color: #fff;margin-right: 10px;}
+.LgReset{background: #e6e6e6;color: #333;}
+
+.Lglist span.LgAdmin{height: 35px;background:url(../images/lg01.jpg) no-repeat right center;}
+.Lglist span.LgPwd{height: 35px;background:url(../images/lg02.jpg) no-repeat right center;}
+
+
+.footer{position: absolute;left: 0;right: 0;width: 100%;z-index: 99;height: 46px;line-height: 46px;bottom: 0;text-align: center;color: #fff;font-size: 12px;background-color: #426374;}
+
+
+
+
+
+
+

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeffy.sqlautoreview.mapper.ProjectMapper" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.jeffy.sqlautoreview.model.ProjectModel" >
+	<result column="project_id" property="projectId"/>
+	<result column="project_name" property="projectName"/>
+	<result column="project_ch_name" property="projectChName"/>
+	<result column="project_desc" property="projectDesc"/>
+	<result column="db_ip" property="dbIp"/>
+	<result column="db_port" property="dbPort"/>
+	<result column="db_name" property="dbName"/>
+	<result column="db_user" property="dbUser"/>
+	<result column="db_password" property="dbPassword"/>
+	<result column="mapper_root_path" property="mapperRootPath"/>
+	<result column="review_time" property="reviewTime"/>
+	<result column="review_flag" property="reviewFlag"/>
+	<result column="score" property="score"/>
+	<result column="create_user" property="createUser"/>
+	<result column="update_user" property="updateUser"/>
+	<result column="create_time" property="createTime"/>
+	<result column="update_time" property="updateTime"/>
+</resultMap>
+       
+<!-- t_project table all fields -->
+<sql id="Base_Columns" >
+	   t.project_id as projectId,
+  t.project_name as projectName,
+  t.project_ch_name as projectChName,
+  t.project_desc as projectDesc,
+  t.db_ip as dbIp,
+  t.db_port as dbPort,
+  t.db_name as dbName,
+  t.db_user as dbUser,
+  t.db_password as dbPassword,
+  t.mapper_root_path as mapperRootPath,
+  t.review_time as reviewTime,
+  t.review_flag as reviewFlag,
+  t.score as score,
+  t.create_user as createUser,
+  t.update_user as updateUser,
+  t.create_time as createTime,
+  t.update_time as updateTime
+</sql>
+   
+<!-- 查询条件 -->
+<sql id="Where_Condition">
+<trim  suffixOverrides="," >
+<if test="model != null " >
+	<if test="model.projectId != null" >
+		and t.project_id = #{model.projectId}
+	</if>
+	 <if test="model.projectName != null and model.projectName != ''" >
+		and t.project_name like #{model.projectName}
+	</if>
+	 <if test="model.projectChName != null and model.projectChName != ''" >
+		and t.project_ch_name = #{model.projectChName}
+	</if>
+	 <if test="model.projectDesc != null and model.projectDesc != ''" >
+		and t.project_desc = #{model.projectDesc}
+	</if>
+	 <if test="model.dbIp != null and model.dbIp != ''" >
+		and t.db_ip = #{model.dbIp}
+	</if>
+	<if test="model.dbPort != null" >
+		and t.db_port = #{model.dbPort}
+	</if>
+	 <if test="model.dbName != null and model.dbName != ''" >
+		and t.db_name = #{model.dbName}
+	</if>
+	 <if test="model.dbUser != null and model.dbUser != ''" >
+		and t.db_user = #{model.dbUser}
+	</if>
+	 <if test="model.dbPassword != null and model.dbPassword != ''" >
+		and t.db_password = #{model.dbPassword}
+	</if>
+	 <if test="model.mapperRootPath != null and model.mapperRootPath != ''" >
+		and t.mapper_root_path = #{model.mapperRootPath}
+	</if>
+	<if test="model.reviewTime != null" >
+		and t.review_time = #{model.reviewTime}
+	</if>
+	<if test="model.reviewFlag != null and model.reviewFlag != ''" >
+		and t.review_flag = #{model.reviewFlag}
+	</if>
+	<if test="model.score != null" >
+		and t.score = #{model.score}
+	</if>
+	 <if test="model.createUser != null and model.createUser != ''" >
+		and t.create_user = #{model.createUser}
+	</if>
+	 <if test="model.updateUser != null and model.updateUser != ''" >
+		and t.update_user = #{model.updateUser}
+	</if>
+	<if test="model.createTime != null" >
+		and t.create_time = #{model.createTime}
+	</if>
+	<if test="model.updateTime != null" >
+		and t.update_time = #{model.updateTime}
+	</if>
+</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" useGeneratedKeys="true" keyProperty="projectId">
+  insert into t_project
+(project_id,
+project_name,
+project_ch_name,
+project_desc,
+db_ip,
+db_port,
+db_name,
+db_user,
+db_password,
+mapper_root_path,
+review_time,
+review_flag,
+score,
+create_user,
+update_user,
+create_time,
+update_time)
+ values(#{projectId},
+#{projectName},
+#{projectChName},
+#{projectDesc},
+#{dbIp},
+#{dbPort},
+#{dbName},
+#{dbUser},
+#{dbPassword},
+#{mapperRootPath},
+#{reviewTime},
+#{reviewFlag},
+#{score},
+#{createUser},
+#{updateUser},
+now(),
+now())
+</insert>
+
+<!-- 批量插入记录 -->
+<insert id="addBatch" parameterType="java.util.List" >
+    insert into t_project
+     (
+      project_id,project_name,project_ch_name,project_desc,db_ip,db_port,db_name,db_user,db_password,mapper_root_path,review_time,review_flag,score,create_user,update_user,create_time,update_time
+     ) 
+     values 
+    <foreach collection="list" item="item" index="index" separator="," >
+       (
+       	       	  #{item.projectId},
+	   	       	  #{item.projectName},
+	   	       	  #{item.projectChName},
+	   	       	  #{item.projectDesc},
+	   	       	  #{item.dbIp},
+	   	       	  #{item.dbPort},
+	   	       	  #{item.dbName},
+	   	       	  #{item.dbUser},
+	   	       	  #{item.dbPassword},
+	   	       	  #{item.mapperRootPath},
+	   	       	  #{item.reviewTime},
+	   	       	  #{item.reviewFlag},
+	   	       	  #{item.score},
+	   	       	  #{item.createUser},
+	   	       	  #{item.updateUser},
+	   	       	  #{item.createTime},
+	   	       	  #{item.updateTime}
+	   		   )
+    </foreach>
+  </insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update t_project set   project_name=#{projectName},
+  project_ch_name=#{projectChName},
+  project_desc=#{projectDesc},
+  db_ip=#{dbIp},
+  db_port=#{dbPort},
+  db_name=#{dbName},
+  db_user=#{dbUser},
+  db_password=#{dbPassword},
+  mapper_root_path=#{mapperRootPath},
+  review_time=#{reviewTime},
+  review_flag=#{reviewFlag},
+  score=#{score},
+  create_user=#{createUser},
+  update_user=#{updateUser},
+  update_time=now()
+ where project_id=#{projectId}
+
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update t_project set 
+	<trim  suffixOverrides="," >
+	<if test="projectName != null  and projectName != '' ">
+		project_name=#{projectName},
+	</if>
+	<if test="projectChName != null  and projectChName != '' ">
+		project_ch_name=#{projectChName},
+	</if>
+	<if test="projectDesc != null  and projectDesc != '' ">
+		project_desc=#{projectDesc},
+	</if>
+	<if test="dbIp != null  and dbIp != '' ">
+		db_ip=#{dbIp},
+	</if>
+	<if test="dbPort != null  ">
+		db_port=#{dbPort},
+	</if>
+	<if test="dbName != null  and dbName != '' ">
+		db_name=#{dbName},
+	</if>
+	<if test="dbUser != null  and dbUser != '' ">
+		db_user=#{dbUser},
+	</if>
+	<if test="dbPassword != null  and dbPassword != '' ">
+		db_password=#{dbPassword},
+	</if>
+	<if test="mapperRootPath != null  and mapperRootPath != '' ">
+		mapper_root_path=#{mapperRootPath},
+	</if>
+	<if test="reviewTime != null  ">
+		review_time=#{reviewTime},
+	</if>
+	<if test="reviewFlag != null  and reviewFlag != '' ">
+		review_flag=#{reviewFlag},
+	</if>
+	<if test="score != null  ">
+		score=#{score},
+	</if>
+	<if test="createUser != null  and createUser != '' ">
+		create_user=#{createUser},
+	</if>
+	<if test="updateUser != null  and updateUser != '' ">
+		update_user=#{updateUser},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="updateTime != null  ">
+		update_time=#{updateTime},
+	</if>
+	</trim> where project_id=#{projectId}
+</update>
+
+<!-- 删除记录 -->
+<delete id="deleteById" parameterType="Object">
+	delete from t_project where project_id = #{projectId}
+</delete>
+ 
+<!-- 根据id查询 页面 -->
+<select id="getById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Columns" /> 
+	 from t_project t where project_id = #{projectId}
+</select>
+
+<!-- 页面 列表总数-->
+<select id="queryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from t_project t
+	where 1=1
+	<include refid="Where_Condition"/>
+</select>
+  	
+<!-- 查询页面列表 -->
+<select id="queryList" resultMap="BaseResultMap">
+	select 
+	<include refid="Base_Columns"/>
+	from t_project t
+	where 1=1
+	<include refid="Where_Condition"/>
+	<if test="pager != null and pager.orderCondition!=null and pager.orderCondition!=''">
+		${pager.orderCondition}
+	</if>
+    <if test="pager != null" >
+       limit #{pager.beginIndex},#{pager.pageSize}
+    </if>
+</select>
+
+<!-- 判断项目是否存在 -->
+<select id="isExistsProject" resultType="int">
+	SELECT count(*)
+	FROM t_project
+	WHERE project_name=#{model.projectName}
+	<if test="model.projectId != null">
+		AND project_id != #{model.projectId}
+	</if>
+</select>
+ 	
+</mapper>   
